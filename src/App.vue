@@ -1,60 +1,83 @@
 <template>
   <div id="app">
     <img src="./assets/logo.png">
+    <img src="./assets/ES.png">
     <h1>{{ msg }}</h1>
-    <h2>Essential Links</h2>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank">Twitter</a></li>
-    </ul>
-    <h2>Ecosystem</h2>
-    <ul>
-      <li><a href="http://router.vuejs.org/" target="_blank">vue-router</a></li>
-      <li><a href="http://vuex.vuejs.org/" target="_blank">vuex</a></li>
-      <li><a href="http://vue-loader.vuejs.org/" target="_blank">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank">awesome-vue</a></li>
-    </ul>
+  <div id='defaultForm'>
+  </div>
   </div>
 </template>
 
+
+
 <script>
+
+  import Vue from 'vue';
+  import {Searchbox,
+    SearchDatalist,
+    RefinementListFilter,
+    Paginate,
+    SearchButton,
+    ResetButton,
+    Hits,Generics,NumericListFilter} from 'vue-innersearch/src/innerSearch';
+
+      Vue.component('searchbox', Searchbox);
+      Vue.component('search-datalist', SearchDatalist);
+      Vue.component('refinement-list-filter', RefinementListFilter);
+      Vue.component('paginate', Paginate);
+      Vue.component('search-button', SearchButton);
+      Vue.component('reset-button', ResetButton);
+      Vue.component('hits', Hits);
+      Vue.component('numeric-list-filter', NumericListFilter);
+
+      Vue.mixin(Generics);
+
+  window.addEventListener('load', function () {
+    new Vue({
+      el: '#defaultForm',
+
+      created : function () {
+        // ES server configuration
+        this.setHost('http://localhost:9200');
+        this.setIndex('tweet');
+        this.setType('_doc');
+       },
+
+
+      template : `
+                <section>
+       <h1 class='is-title'>Search demo</h1><hr class='is-line' />
+       <div> 
+      <searchbox :autofocus="true" :realtime="true" :timeout="150" :field="'text'" :placeholder="'What can I help you with ?'"></searchbox>
+      <hits>
+        <template slot="hits" slot-scope="{ hits }">
+           <div class="is-score is-hits">
+            <strong v-if="hits.score === 0">No result found</strong>
+            <strong v-else-if="hits.score === 1">1 result found</strong>
+            <strong v-else-if="hits.score > 1">{{ hits.score }} results found</strong>
+           </div>
+                <div v-for="item in hits.items" :item="item">
+                    <div>Found: {{ item._source.text }}</div>
+                </div>
+          </template>
+        </hits>
+                    </div>
+                </section>
+            `
+    });
+  });
+
 export default {
   name: 'app',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      msg: 'Welcome to yet another of lecw\'s features demo'
     }
   }
 }
 </script>
 
-<style lang="scss">
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-
-h1, h2 {
-  font-weight: normal;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-a {
-  color: #42b983;
-}
+<style>
+  @import url(https://unpkg.com/vue-innersearch@0.0.10/default-innersearch-theme.min.css)
 </style>
+

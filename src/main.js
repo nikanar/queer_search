@@ -1,5 +1,6 @@
 import Vue from 'vue'
-import App from './App-BANK.vue'
+import App from './App.vue'
+// App-BANK.vue
 
 new Vue({
   el: '#app',
