@@ -1,12 +1,13 @@
 {
-  "name": "innersearch-starter-app",
+  "name": "queer_search_app",
   "description": "A Vue.js project",
   "version": "1.0.0",
-  "author": "TrimA <florianseb96@hotmail.fr>",
+  "author": "lecw <lecw@sancta-terra.com>",
   "license": "MIT",
   "private": true,
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack-dev-server --open --hot",
+    "start": "npm dev run",
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules"
   },
   "dependencies": {
