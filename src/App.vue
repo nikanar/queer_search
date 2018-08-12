@@ -38,7 +38,7 @@
 
       created : function () {
         // ES server configuration
-        this.setHost('http://localhost:9200');
+        this.setHost('http://198.74.56.26:9200');
         this.setIndex('tweet');
         this.setType('_doc');
        },
